@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@</title>
+    <link rel="icon" href="sources/wowow.png" type="image/png">
+    <style>
+        :root {
+            --background: black;
+            --text: white;
+        }
+
+        @font-face {
+            font-family: 'MagicNight';
+            src: url('fonts/gg sans Medium.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        body {
+            margin: 0;
+            height: 100vh;
+            background-color: var(--background) !important;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text) !important;
+            font-family: 'MagicNight', Arial, sans-serif;
+            overflow: hidden;
+        }
+
+        .text {
+            font-size: 29px;
+            opacity: 1;
+            transition: opacity 0.52s;
+            cursor: pointer;
+            text-shadow: 0 0 15px rgba(25, 25, 25, 1), 0 0 30px rgba(25, 25, 25, 0.4);
+            display: block;
+            height: 100%;
+            margin: 0%;
+        }
+
+        #pfp.hidden,
+        #description-content.hidden,
+        #wallpaper.hidden {
+            display: none;
+            opacity: 0;
+        }
+
+        #pfp.show {
+            height: 50px;
+            display: block;
+            border-radius: 100%;
+        }
+
+        .hidden {
+            opacity: 0;
+        }
+
+        #links-container {
+            position: absolute;
+            bottom: 50px;
+            text-align: center;
+        }
+
+        #discord-link,
+        #youtube-link {
+            font-size: 18px;
+            opacity: 0;
+            transition: opacity 0.5s, filter 0.3s;
+            text-decoration: none;
+            font-family: 'MagicNight', Arial, sans-serif;
+            display: block;
+            text-shadow: 
+                1px 1px 0px black,  /* Right and down */
+                -1px -1px 0px black, /* Left and up */
+                1px -1px 0px black,  /* Right and up */
+                -1px 1px 0px black;  /* Left and down */
+        }
+
+        #discord-link {
+            margin-bottom: 5px;
+        }
+
+        #discord-link:hover,
+        #youtube-link:hover {
+            filter: blur(2px);
+        }
+
+        #discord-link.show,
+        #youtube-link.show {
+            opacity: 1;
+        }
+
+        #image {
+            position: absolute;
+            top: 5000px;
+            left: 58%;
+            transform: translateX(-50%);
+            width: 115px;
+            opacity: 0;
+            transition: opacity 1s;
+        }
+
+        #image.show {
+            opacity: 1;
+        }
+
+        #text-container.show {
+            transition: opacity 1s;
+            background: rgba(0, 0, 0, 0.25) !important;
+            padding: 25px;
+            border-radius: 25px;
+            border: 1px solid #1a1a1a28;
+            align-items: center;
+        }
+
+        #card {
+            transition: opacity 1s;
+            align-items: center;
+            display: flex;
+            column-gap: 20px;
+            justify-content: space-between;
+        }
+
+        .description {
+            padding-top: 10px;
+            margin: 0%;
+        }
+
+        .wallholder {
+            overflow: hidden;
+            position: fixed;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+            z-index: -10;
+        }
+
+        .wallpaper {
+            opacity: 0;
+            transition: opacity 0.5s, filter 0.3s;
+            position: fixed;
+            left: 0%;
+            top: 0%;
+            object-fit: cover;
+            width: 100%;
+            height: 100%;
+            z-index: -9;
+        }
+
+        #background.show {
+            opacity: 1;
+        }
+
+        a {
+            color: var(--text) !important;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="text-container">
+        <div id="card">
+            <img id="pfp" class="hidden" src="./sources/image.png"></img>
+            <h1 id="text-content" class="text">click anywhere</h1>
+        </div>
+        <p id="description-content" class="description">- owned by randomSeas <:</p>
+    </div>
+
+    <div id="wallholder" class="wallholder">
+        <video id="background" class="wallpaper" playsinline preload muted loop>
+            <source src="./sources/ocean.mp4" type="video/mp4">
+        </video>
+    </div>
+
+    <img id="image" src="sources/image.png" alt="Image">
+    <div id="links-container">
+        <a id="discord-link" href="https://discordapp.com/users/1199831622594338841" target="_blank"></a>
+        <a id="youtube-link" href="https://randomleft.lol" target="_blank">funny button</a>
+    </div>
+    <audio id="audio" src="sources/sungrazer cascade - lone.mp3" loop></audio>
+
+    <script>
+        var titleState = false;
+
+        function toggleTitle() {
+            document.title = titleState ? 'made by random' : 'made by random';
+            titleState = !titleState;
+        }
+
+        setInterval(toggleTitle, 1000);
+
+        var descriptionContent = document.getElementById('description-content');
+        var background = document.getElementById('background');
+        var audio = document.getElementById('audio');
+        descriptionContent.classList.add('hidden');
+        background.classList.add('hidden');
+
+        var textContainer = document.getElementById('text-container');
+        var textContent = document.getElementById('text-content');
+
+        textContainer.addEventListener('click', function () {
+            // Remove the click event after the first click
+            textContainer.removeEventListener('click', arguments.callee);
+
+            audio.currentTime = 0; // Reset audio to start
+            audio.play();
+            background.play();
+
+            setTimeout(function () {
+                textContent.textContent = 'onebeerleft.wtf';
+                textContainer.classList.remove('hidden');
+                descriptionContent.classList.remove('hidden');
+                background.classList.remove('hidden');
+                document.getElementById('pfp').classList.remove('hidden');
+                textContainer.classList.add('show');
+                background.classList.add('show');
+                document.getElementById('pfp').classList.add('show');
+                document.getElementById('discord-link').classList.add('show');
+                document.getElementById('youtube-link').classList.add('show');
+                document.getElementById('image').classList.add('show');
+            }, 250);
+        });
+
+        // Stop audio when the video ends
+        background.addEventListener('ended', function() {
+            audio.pause();
+            audio.currentTime = 0; // Reset audio to start
+        });
+    </script>
+</body>
+
+</html>
